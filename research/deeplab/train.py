@@ -16,6 +16,12 @@
 
 See model.py for more details and usage.
 """
+import sys
+sys.path.append('../')
+# Add tensorflow slim package to python path; Download from:
+# https://github.com/tensorflow/models/tree/master/research/slim
+if "D:\\pythonProjects\\models\\research\\slim" not in sys.path:
+    sys.path.append("D:\\pythonProjects\\models\\research\\slim")
 
 import six
 import tensorflow as tf

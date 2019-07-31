@@ -14,7 +14,11 @@
 # ==============================================================================
 
 """Tests for DeepLab model and some helper functions."""
-
+import sys
+sys.path.append('../')
+import sys
+if "D:\\pythonProjects\\models\\research\\slim" not in sys.path:
+    sys.path.append("D:\\pythonProjects\\models\\research\\slim")
 import tensorflow as tf
 
 from deeplab import common
