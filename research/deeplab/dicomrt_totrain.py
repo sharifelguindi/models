@@ -15,11 +15,11 @@
 from __future__ import print_function
 import sys
 sys.path.append('../')
+sys.path.append("D:\\pythonProjects\\models\\research\\deeplab")
 # Add tensorflow slim package to python path; Download from:
 # https://github.com/tensorflow/models/tree/master/research/slim
 if "D:\\pythonProjects\\models\\research\\slim" not in sys.path:
     sys.path.append("D:\\pythonProjects\\models\\research\\slim")
-
 import numpy as np
 import os
 import tensorflow as tf

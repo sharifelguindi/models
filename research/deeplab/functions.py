@@ -40,23 +40,42 @@ def normalize_equalize_smooth_MR(arr, clahe):
     norm_arr = cv2.normalize(arr, norm_arr, 0, 65535, cv2.NORM_MINMAX)
     norm_arr = np.clip(norm_arr, 0, 65535)
     norm_eq = np.zeros((length, 3, width, height), dtype='uint16')
-    for ii in range(0, length):
-        if ii == 0:
-            img_0 = clahe.apply(norm_arr[ii+0, :, :].astype('uint16'))
-            img_1 = clahe.apply(norm_arr[ii+0, :, :].astype('uint16'))
-            img_2 = clahe.apply(norm_arr[ii+1, :, :].astype('uint16'))
-        elif ii == length-1:
-            img_0 = clahe.apply(norm_arr[ii-1, :, :].astype('uint16'))
-            img_1 = clahe.apply(norm_arr[ii, :, :].astype('uint16'))
-            img_2 = clahe.apply(norm_arr[ii, :, :].astype('uint16'))
-        else:
-            img_0 = clahe.apply(norm_arr[ii-1, :, :].astype('uint16'))
-            img_1 = clahe.apply(norm_arr[ii+0, :, :].astype('uint16'))
-            img_2 = clahe.apply(norm_arr[ii+1, :, :].astype('uint16'))
+    if clahe is not None:
+        for ii in range(0, length):
+            if ii == 0:
+                img_0 = clahe.apply(norm_arr[ii+0, :, :].astype('uint16'))
+                img_1 = clahe.apply(norm_arr[ii+0, :, :].astype('uint16'))
+                img_2 = clahe.apply(norm_arr[ii+1, :, :].astype('uint16'))
+            elif ii == length-1:
+                img_0 = clahe.apply(norm_arr[ii-1, :, :].astype('uint16'))
+                img_1 = clahe.apply(norm_arr[ii, :, :].astype('uint16'))
+                img_2 = clahe.apply(norm_arr[ii, :, :].astype('uint16'))
+            else:
+                img_0 = clahe.apply(norm_arr[ii-1, :, :].astype('uint16'))
+                img_1 = clahe.apply(norm_arr[ii+0, :, :].astype('uint16'))
+                img_2 = clahe.apply(norm_arr[ii+1, :, :].astype('uint16'))
 
-        norm_eq[ii, 0, :, :] = smooth_image(img_0).astype('uint16')
-        norm_eq[ii, 1, :, :] = 255 - smooth_image(img_1).astype('uint16')
-        norm_eq[ii, 2, :, :] = smooth_image(img_2).astype('uint16')
+            norm_eq[ii, 0, :, :] = smooth_image(img_0).astype('uint16')
+            norm_eq[ii, 1, :, :] = 255 - smooth_image(img_1).astype('uint16')
+            norm_eq[ii, 2, :, :] = smooth_image(img_2).astype('uint16')
+    else:
+        for ii in range(0, length):
+            if ii == 0:
+                img_0 = norm_arr[ii+0, :, :].astype('uint16')
+                img_1 = norm_arr[ii+0, :, :].astype('uint16')
+                img_2 = norm_arr[ii+1, :, :].astype('uint16')
+            elif ii == length-1:
+                img_0 = norm_arr[ii-1, :, :].astype('uint16')
+                img_1 = norm_arr[ii, :, :].astype('uint16')
+                img_2 = norm_arr[ii, :, :].astype('uint16')
+            else:
+                img_0 = norm_arr[ii-1, :, :].astype('uint16')
+                img_1 = norm_arr[ii+0, :, :].astype('uint16')
+                img_2 = norm_arr[ii+1, :, :].astype('uint16')
+
+            norm_eq[ii, 0, :, :] = smooth_image(img_0).astype('uint16')
+            norm_eq[ii, 1, :, :] = 255 - smooth_image(img_1).astype('uint16')
+            norm_eq[ii, 2, :, :] = smooth_image(img_2).astype('uint16')
 
     norm_arr_ds = np.zeros(np.shape(norm_eq), dtype='uint8')
     norm_arr_ds = cv2.normalize(norm_eq, norm_arr_ds, 0, 255, cv2.NORM_MINMAX)
